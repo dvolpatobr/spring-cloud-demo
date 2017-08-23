@@ -4,12 +4,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>br.com.volpato.springcloud</groupId>
-	<artifactId>api</artifactId>
+	<artifactId>backend-api</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>api</name>
-	<description>Demo project for Spring Boot</description>
+	<name>backend-api</name>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -79,4 +78,5 @@
 	</build>
 
 
+	<description>backend-api</description>
 </project>

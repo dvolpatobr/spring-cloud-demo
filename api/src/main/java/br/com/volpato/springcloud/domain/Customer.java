@@ -15,8 +15,10 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.validator.constraints.Length;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
-public class Cliente {
+public class Customer {
 
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,24 +26,29 @@ public class Cliente {
 
     @NotNull
     @Length(min=2, max=30,message="O tamanho do nome deve ser entre {min} e {max} caracteres")
-	private String nome;
+	private String name;
 
     @NotNull
     @Length(min=2, max=300,message="O tamanho do endereço deve ser entre {min} e {max} caracteres")
-	private String endereco;
-	
-	@OneToMany(mappedBy = "cliente",fetch = FetchType.EAGER)
-	@Cascade(CascadeType.ALL)
-	private List<Pedido> pedidos;
+	private String address;
 
-	public Cliente(Long id,String nome,String endereco) {
+    
+    @NotNull
+    @Length(min=11, max=11,message="O tamanho do CPF deve ser de {max} caracteres")
+	private String cpf;
+    
+	@OneToMany(mappedBy = "customer",fetch = FetchType.EAGER)
+	@Cascade(CascadeType.ALL)
+	private List<Card> cards;
+
+	public Customer(Long id,String name,String address) {
 		super();
 		this.id = id;
-		this.nome = nome;
-		this.endereco = endereco;
+		this.name = name;
+		this.address = address;
 	}
 
-	public Cliente() {}
+	public Customer() {}
 
 	public Long getId() {
 		return id;
@@ -51,44 +58,55 @@ public class Cliente {
 		this.id = id;
 	}
 
-	public String getNome() {
-		return nome;
-	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
-	public String getEndereco() {
-		return endereco;
-	}
-
-	public void setEndereco(String endereco) {
-		this.endereco = endereco;
+	public void addCard(Card card) {
+		if (this.cards==null) cards = new ArrayList<Card>();
+		cards.add(card);
 	}
 	
-	public List<Pedido> getPedidos() {
-		return pedidos;
-
+	public void setCards(List<Card> cards) {
+		this.cards = cards;
 	}
-
-	public void novoPedido(Pedido pedido) {
-		
-		if (this.pedidos==null) pedidos = new ArrayList<Pedido>();
-		
-		pedidos.add(pedido);
-		
-	}
-
 	
-	public void setPedidos(List<Pedido> pedidos) {
-		this.pedidos = pedidos;
+
+	public List<Card> getCards() {
+		return cards;
+	}
+	
+	
+	
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+
+	public String getCpf() {
+		return cpf;
+	}
+
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
 	}
 
 	@Override
 	public String toString() {
-		return "Cliente [id=" + id + ", nome=" + nome + ", endereco=" + endereco + "]";
+		return "Customer [id=" + id + ", name=" + name + ", address=" + address + "]";
 	}
+	
+		
 
 	@Override
 	public int hashCode() {
@@ -106,7 +124,7 @@ public class Cliente {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Cliente other = (Cliente) obj;
+		Customer other = (Customer) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
